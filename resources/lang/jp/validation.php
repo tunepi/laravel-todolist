@@ -125,6 +125,12 @@ return [
     'url' => 'The :attribute must be a valid URL.',
     'uuid' => 'The :attribute must be a valid UUID.',
 
+    'attributes' => [
+        'email' => 'メールアドレス',
+        'password' => 'パスワード',
+        'token' => 'トークン',
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

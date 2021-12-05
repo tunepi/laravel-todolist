@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 //Route::get('/','PlayersController@index');
 //Route::get('/index','TasksController@index');
 
-Auth::routes();
+
 
 Route::group(['middleware' => 'auth'], function() {
         // いままで定義してきたルート
@@ -40,3 +40,5 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
+
+Auth::routes();
