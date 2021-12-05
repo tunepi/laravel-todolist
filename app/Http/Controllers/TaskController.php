@@ -23,6 +23,10 @@ class TaskController extends Controller
         // 選ばれたフォルダを取得する
         $current_folder = Folder::find($id);
 
+        if (is_null($current_folder)) {
+            abort(404);
+        }
+
         // 選ばれたフォルダに紐づくタスクを取得する
         $tasks = $current_folder->tasks()->get(); // ★
 
@@ -53,6 +57,10 @@ class TaskController extends Controller
 
         $current_folder->tasks()->save($task);
 
+        if (is_null($current_folder)) {
+            abort(404);
+        }
+
         return redirect()->route('tasks.index', [
             'id' => $current_folder->id,
         ]);
@@ -69,6 +77,10 @@ class TaskController extends Controller
 
         $task = Task::find($task_id);
 
+        if (is_null($task)) {
+            abort(404);
+        }
+
         return view('tasks/edit', [
             'task' => $task,
         ]);
@@ -81,6 +93,10 @@ class TaskController extends Controller
         $task_id = $request->task_id;
         // 1
         $task = Task::find($task_id);
+
+        if (is_null($task)) {
+            abort(404);
+        }
 
         // 2
         $task->title = $request->title;
