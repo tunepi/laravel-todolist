@@ -3,15 +3,16 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ResetPassword extends Mailable
 {
     use Queueable, SerializesModels;
-
-    private $token;
+    //private、protectedでは使えなかった
+    //最後の出力に使用されているから？
+    public $token;
 
     /**
      * Create a new message instance.
