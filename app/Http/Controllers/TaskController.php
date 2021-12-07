@@ -13,100 +13,80 @@ use Illuminate\Support\Facades\Auth;
 class TaskController extends Controller
 {
     //
-    public function index(Request $request)
+    public function index(Folder $folder)
     {
-        $id = $request->id;
+
+        if (Auth::user()->id !== $folder->user_id) {
+            abort(403);
+        }
 
         // ユーザのフォルダを取得する
         $folders = Auth::user()->folders()->get();
 
-        // 選ばれたフォルダを取得する
-        $current_folder = Folder::find($id);
-
-        if (is_null($current_folder)) {
-            abort(404);
-        }
-
         // 選ばれたフォルダに紐づくタスクを取得する
-        $tasks = $current_folder->tasks()->get(); // ★
+        $tasks = $folder->tasks()->get(); // ★
 
         return view('tasks/index', [
             'folders' => $folders,
-            'current_folder_id' => $current_folder->id,
+            'current_folder_id' => $folder->id,
             'tasks' => $tasks,
         ]);
         
     }
 
-    public function showCreateForm(Request $request)
+    public function showCreateForm(Folder $folder)
     {
-        $id = $request->id;
         return view('tasks/create', [
-            'folder_id' => $id
+            'folder_id' => $folder->id
         ]);
     }
 
-    public function create(CreateTask $request)
+    public function create(Folder $folder,CreateTask $request)
     {
-        $id = $request->id;
-        $current_folder = Folder::find($id);
-
         $task = new Task();
         $task->title = $request->title;
         $task->due_date = $request->due_date;
 
-        $current_folder->tasks()->save($task);
-
-        if (is_null($current_folder)) {
-            abort(404);
-        }
+        $folder->tasks()->save($task);
 
         return redirect()->route('tasks.index', [
-            'id' => $current_folder->id,
+            'folder' => $folder->id,
         ]);
     }
 
     /**
      * GET /folders/tasks/edit
      */
-    public function showEditForm(Request $request)
+    public function showEditForm(Folder $folder, Task $task)
     {
-        $id = $request->id;
-
-        $task_id = $request->task_id;
-
-        $task = Task::find($task_id);
-
-        if (is_null($task)) {
-            abort(404);
-        }
+        //チェック
+        $this->checkRelation($folder, $task);
 
         return view('tasks/edit', [
             'task' => $task,
         ]);
     }
 
-    public function edit(EditTask $request)
+    public function edit(Folder $folder, Task $task,EditTask $request)
     {
-        $id = $request->id;
 
-        $task_id = $request->task_id;
-        // 1
-        $task = Task::find($task_id);
+        //チェック
+        $this->checkRelation($folder, $task);
 
-        if (is_null($task)) {
-            abort(404);
-        }
-
-        // 2
         $task->title = $request->title;
         $task->status = $request->status;
         $task->due_date = $request->due_date;
         $task->save();
 
-        // 3
         return redirect()->route('tasks.index', [
-            'id' => $task->folder_id,
+            'folder' => $task->folder_id,
         ]);
+    }
+    //フォルダとログインユーザだけではなくフォルダーIDも紐づける
+    private function checkRelation(Folder $folder, Task $task)
+    {
+        if ($folder->id !== $task->folder_id) {
+            abort(404);
+        }
     }
 }

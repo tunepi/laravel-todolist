@@ -89,7 +89,7 @@ return [
     'min' => [
         'numeric' => 'The :attribute must be at least :min.',
         'file' => 'The :attribute must be at least :min kilobytes.',
-        'string' => ':attribute には文字を入力してください。',
+        'string' => ':attribute には8文字以上を入力してください。',
         'array' => 'The :attribute must have at least :min items.',
     ],
     'multiple_of' => 'The :attribute must be a multiple of :value.',
@@ -125,12 +125,6 @@ return [
     'url' => 'The :attribute must be a valid URL.',
     'uuid' => 'The :attribute must be a valid UUID.',
 
-    'attributes' => [
-        'email' => 'メールアドレス',
-        'password' => 'パスワード',
-        'token' => 'トークン',
-    ],
-
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines
@@ -159,6 +153,10 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'email' => 'メールアドレス',
+        'password' => 'パスワード',
+        'token' => 'トークン',
+    ],
 
 ];

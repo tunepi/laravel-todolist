@@ -7,6 +7,13 @@
         <nav class="panel panel-default">
           <div class="panel-heading">パスワード再発行</div>
           <div class="panel-body">
+          @if($errors->any())
+              <div class="alert alert-danger">
+                @foreach($errors->all() as $message)
+                  <p>{{ $message }}</p>
+                @endforeach
+              </div>
+            @endif
             <form action="{{ route('password.update') }}" method="POST">
               @csrf
               <!--hiddenでトークンを一緒に送ることで変更できる。-->
