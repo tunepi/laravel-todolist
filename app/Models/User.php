@@ -36,14 +36,6 @@ class User extends Authenticatable
     ];
 
     /**
-     * ★ パスワード再設定メールを送信する
-     */
-    public function sendPasswordResetNotification($token)
-    {
-        Mail::to($this)->send(new ResetPassword($token));
-    }
-
-    /**
      * The attributes that should be cast.
      *
      * @var array
@@ -55,5 +47,13 @@ class User extends Authenticatable
     public function folders()
     {
         return $this->hasMany('App\Models\Folder');
+    }
+
+     /**
+     * ★ パスワード再設定メールを送信する
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        Mail::to($this)->send(new ResetPassword($token));
     }
 }

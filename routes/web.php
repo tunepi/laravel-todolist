@@ -21,28 +21,6 @@ use Illuminate\Support\Facades\Route;
 //Route::get('/index','TasksController@index');
 
 
-
-/* Route::group(['middleware' => 'auth'], function() {
-        // いままで定義してきたルート
-    Route::get('/', 'HomeController@index')->name('home');
-
-    Route::get("/tasks/index", 'TaskController@index')->name('tasks.index');
-
-    Route::get('/folders/create', 'FolderController@showCreateForm')->name('folders.create');
-    Route::post('/folders/create', 'FolderController@create');
-
-    Route::get('/tasks/create', 'TaskController@showCreateForm')->name('tasks.create');
-    Route::post('/tasks/create', 'TaskController@create');
-
-    Route::get('/tasks/edit', 'TaskController@showEditForm')->name('tasks.edit');
-    Route::post('/tasks/edit', 'TaskController@edit');
-    Auth::routes();
-
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-});
-
-Auth::routes(); */
-
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/', 'HomeController@index')->name('home');
 
@@ -54,7 +32,6 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('/folders/{folder?}/tasks', 'TaskController@index')->name('tasks.index');
         
         Route::get('/folders/{folder}/tasks/create', 'TaskController@showCreateForm')->name('tasks.create');
-            
         Route::post('/folders/{folder}/tasks/create', 'TaskController@create');
 
         Route::get('/folders/{folder}/tasks/{task}/edit', 'TaskController@showEditForm')->name('tasks.edit');
