@@ -13,10 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
-
 //Route::get('/','PlayersController@index');
 //Route::get('/index','TasksController@index');
 
